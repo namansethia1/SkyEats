@@ -66,7 +66,7 @@ SkyEats includes comprehensive test suites for both frontend and backend compone
 
 **Test Coverage**:
 - ✅ **Product Retrieval**: Get all items, by category, by ID
-- ✅ **Pexels Integration**: Dynamic image enhancement
+- ✅ **Image Management**: Static image handling
 - ✅ **Stock Management**: Update, reduce, increase stock
 - ✅ **Stock Validation**: Check availability and reservations
 - ✅ **Search Functionality**: Product search with image enhancement
@@ -83,8 +83,8 @@ void shouldReturnAllActiveItemsWithEnhancedImages()
 void shouldReduceStockWhenSufficientQuantityAvailable()
 
 @Test
-@DisplayName("Should handle Pexels service failure gracefully")
-void shouldHandlePexelsServiceFailureGracefully()
+@DisplayName("Should handle image service gracefully")
+void shouldHandleImageServiceGracefully()
 ```
 
 #### 2. **CartControllerTest.java**
@@ -114,30 +114,7 @@ void shouldReturnUnauthorizedWhenNotAuthenticated()
 void shouldFailToAddItemWhenOutOfStock()
 ```
 
-#### 3. **PexelsServiceTest.java**
-**Purpose**: Tests Pexels API integration and image management
 
-**Test Coverage**:
-- ✅ **API Integration**: Pexels API calls and responses
-- ✅ **Caching Logic**: Image caching and cache management
-- ✅ **Fallback System**: Error handling and fallback images
-- ✅ **Query Building**: Search query optimization
-- ✅ **Edge Cases**: Special characters, null values, errors
-
-**Key Test Scenarios**:
-```java
-@Test
-@DisplayName("Should return Pexels image URL for valid product")
-void shouldReturnPexelsImageUrlForValidProduct()
-
-@Test
-@DisplayName("Should return cached image URL for repeated requests")
-void shouldReturnCachedImageUrlForRepeatedRequests()
-
-@Test
-@DisplayName("Should return fallback image when Pexels API fails")
-void shouldReturnFallbackImageWhenPexelsApiFails()
-```
 
 ### **Frontend Test Classes**
 
@@ -177,8 +154,7 @@ it('provides correct cart utility functions')
 it('does not fetch cart when user is not authenticated')
 ```
 
-#### 3. **pexelsService.test.js**
-**Purpose**: Tests image service utilities
+
 
 **Test Coverage**:
 - ✅ **Cache Management**: Cache refresh and info retrieval
@@ -208,7 +184,7 @@ mvn test
 ```bash
 mvn test -Dtest=InventoryServiceTest
 mvn test -Dtest=CartControllerTest
-mvn test -Dtest=PexelsServiceTest
+
 ```
 
 #### Run Tests with Coverage
@@ -457,7 +433,7 @@ jobs:
 ```
 ✓ src/components/__tests__/CategoryShowcase.test.jsx (15)
 ✓ src/contexts/__tests__/CartContext.test.jsx (18)
-✓ src/services/__tests__/pexelsService.test.js (12)
+
 
 Test Files  3 passed (3)
 Tests  45 passed (45)

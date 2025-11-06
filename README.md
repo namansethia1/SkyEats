@@ -71,7 +71,7 @@ To revolutionize grocery shopping by providing fresh products with lightning-fas
 
 ### 🖼️ **Dynamic Image Management**
 - **Smart Image Caching** - Intelligent caching to minimize API calls
-- **Fallback System** - Three-tier image fallback (Pexels → Database → Category defaults)
+- **Fallback System** - Two-tier image fallback (Database → Category defaults)
 - **Category-Specific Images** - Optimized search queries for relevant product photos
 
 ### 🎨 **Advanced UI/UX**
@@ -172,8 +172,7 @@ skyeats/
 │   │   │   └── 🔐 FirebaseAuthenticationFilter.java
 │   │   ├── 📁 service/                  # Business logic
 │   │   │   ├── 🔥 FirestoreService.java # Database operations
-│   │   │   ├── 📦 InventoryService.java # Product logic
-│   │   │   └── 🖼️ PexelsService.java    # Image management
+│   │   │   └── 📦 InventoryService.java # Product logic
 │   │   └── 🚀 SkyEatsApplication.java   # Main application
 │   └── 📁 src/main/resources/
 │       └── ⚙️ application.properties    # App configuration
@@ -199,8 +198,7 @@ skyeats/
 │   │   │   ├── 📋 Orders.jsx           # Order history
 │   │   │   └── 📝 Register.jsx         # User registration
 │   │   ├── 📁 services/                 # API services
-│   │   │   ├── 🌐 api.js               # HTTP client
-│   │   │   └── 🖼️ pexelsService.js     # Image handling
+│   │   │   └── 🌐 api.js               # HTTP client
 │   │   ├── 📁 utils/                    # Utility functions
 │   │   │   └── 🛠️ helpers.js           # Helper functions
 │   │   ├── 🎨 index.css                # Global styles
@@ -278,8 +276,8 @@ VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 
-# Pexels API (Backend handles this)
-# PEXELS_API_KEY is configured in PexelsService.java
+# Image Management
+# Static images are served from the backend
 ```
 
 ## 📱 API Documentation
@@ -442,7 +440,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - **Firebase** for authentication and hosting services
-- **Pexels** for high-quality product images
+- **Static Images** for product display
 - **Tailwind CSS** for the utility-first CSS framework
 - **Spring Boot** for the robust backend framework
 - **React** for the powerful frontend library

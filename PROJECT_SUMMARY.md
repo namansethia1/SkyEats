@@ -15,7 +15,7 @@
 ### ✅ **Advanced Technical Implementation**
 - **Microservices Architecture** with Spring Boot backend and React frontend
 - **Real-time Data Synchronization** between frontend and backend
-- **Dynamic Image Management** using Pexels API with intelligent fallbacks
+- **Static Image Management** with intelligent fallbacks
 - **Responsive Design** optimized for all device types
 
 ### ✅ **Production-Ready Features**
@@ -59,7 +59,7 @@ Data Architecture:
 ├── 🔐 Authentication: Firebase Auth (User management)
 ├── 📁 File Storage: Firebase Storage (Image storage)
 ├── 💾 Caching: In-Memory Caching (Performance optimization)
-├── 🖼️ Images: Pexels API (Dynamic image fetching)
+├── 🖼️ Images: Static Images (Product display)
 └── 🔄 Real-time: Firestore (Real-time updates)
 ```
 
@@ -106,10 +106,10 @@ Data Architecture:
 
 ### 📦 **Advanced Features**
 
-#### **Dynamic Image Management**
-- **Pexels API Integration** - Fresh, professional product images
-- **Smart Caching System** - Intelligent caching to minimize API calls
-- **Three-tier Fallback** - Pexels → Database → Category defaults
+#### **Static Image Management**
+- **Database Images** - Stored product images
+- **Smart Caching System** - Intelligent caching for performance
+- **Two-tier Fallback** - Database → Category defaults
 - **Category-specific Optimization** - Tailored search queries for each category
 - **Performance Optimization** - Lazy loading and image compression
 

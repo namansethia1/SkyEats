@@ -28,8 +28,7 @@ class InventoryServiceTest {
     @Mock
     private InventoryRepository inventoryRepository;
 
-    @Mock
-    private PexelsService pexelsService;
+
 
     @InjectMocks
     private InventoryService inventoryService;
@@ -48,33 +47,28 @@ class InventoryServiceTest {
     }
 
     @Test
-    @DisplayName("Should return all active items with enhanced images")
-    void shouldReturnAllActiveItemsWithEnhancedImages() {
+    @DisplayName("Should return all active items")
+    void shouldReturnAllActiveItems() {
         // Given
         when(inventoryRepository.findByIsActiveTrue()).thenReturn(testItems);
-        when(pexelsService.getProductImage(anyString(), anyString()))
-            .thenReturn("https://images.pexels.com/enhanced-image.jpg");
 
         // When
         List<InventoryItem> result = inventoryService.getAllActiveItems();
 
         // Then
         assertThat(result).hasSize(3);
-        assertThat(result.get(0).getImageUrl()).isEqualTo("https://images.pexels.com/enhanced-image.jpg");
+        assertThat(result.get(0).getImageUrl()).isEqualTo("https://example.com/original-image.jpg");
         
         verify(inventoryRepository).findByIsActiveTrue();
-        verify(pexelsService, times(3)).getProductImage(anyString(), anyString());
     }
 
     @Test
-    @DisplayName("Should return items by category with enhanced images")
-    void shouldReturnItemsByCategoryWithEnhancedImages() {
+    @DisplayName("Should return items by category")
+    void shouldReturnItemsByCategory() {
         // Given
         List<InventoryItem> fruitsItems = Arrays.asList(testItem, testItems.get(1));
         when(inventoryRepository.findByCategoryIgnoreCaseAndIsActiveTrue("Fruits"))
             .thenReturn(fruitsItems);
-        when(pexelsService.getProductImage(anyString(), anyString()))
-            .thenReturn("https://images.pexels.com/fruits-image.jpg");
 
         // When
         List<InventoryItem> result = inventoryService.getItemsByCategory("Fruits");
@@ -82,10 +76,9 @@ class InventoryServiceTest {
         // Then
         assertThat(result).hasSize(2);
         assertThat(result).allMatch(item -> "Fruits".equals(item.getCategory()));
-        assertThat(result.get(0).getImageUrl()).isEqualTo("https://images.pexels.com/fruits-image.jpg");
+        assertThat(result.get(0).getImageUrl()).isEqualTo("https://example.com/original-image.jpg");
         
         verify(inventoryRepository).findByCategoryIgnoreCaseAndIsActiveTrue("Fruits");
-        verify(pexelsService, times(2)).getProductImage(anyString(), anyString());
     }
 
     @Test
@@ -93,8 +86,6 @@ class InventoryServiceTest {
     void shouldReturnAllItemsWhenCategoryIsAll() {
         // Given
         when(inventoryRepository.findByIsActiveTrue()).thenReturn(testItems);
-        when(pexelsService.getProductImage(anyString(), anyString()))
-            .thenReturn("https://images.pexels.com/all-items.jpg");
 
         // When
         List<InventoryItem> result = inventoryService.getItemsByCategory("all");
@@ -102,16 +93,13 @@ class InventoryServiceTest {
         // Then
         assertThat(result).hasSize(3);
         verify(inventoryRepository).findByIsActiveTrue();
-        verify(pexelsService, times(3)).getProductImage(anyString(), anyString());
     }
 
     @Test
-    @DisplayName("Should return item by ID with enhanced image")
-    void shouldReturnItemByIdWithEnhancedImage() {
+    @DisplayName("Should return item by ID")
+    void shouldReturnItemById() {
         // Given
         when(inventoryRepository.findById("1")).thenReturn(Optional.of(testItem));
-        when(pexelsService.getProductImage("Fresh Apples", "Fruits"))
-            .thenReturn("https://images.pexels.com/apple-image.jpg");
 
         // When
         Optional<InventoryItem> result = inventoryService.getItemById("1");
@@ -119,10 +107,9 @@ class InventoryServiceTest {
         // Then
         assertThat(result).isPresent();
         assertThat(result.get().getName()).isEqualTo("Fresh Apples");
-        assertThat(result.get().getImageUrl()).isEqualTo("https://images.pexels.com/apple-image.jpg");
+        assertThat(result.get().getImageUrl()).isEqualTo("https://example.com/original-image.jpg");
         
         verify(inventoryRepository).findById("1");
-        verify(pexelsService).getProductImage("Fresh Apples", "Fruits");
     }
 
     @Test
@@ -137,7 +124,6 @@ class InventoryServiceTest {
         // Then
         assertThat(result).isEmpty();
         verify(inventoryRepository).findById("999");
-        verify(pexelsService, never()).getProductImage(anyString(), anyString());
     }
 
     @Test
@@ -256,14 +242,12 @@ class InventoryServiceTest {
     }
 
     @Test
-    @DisplayName("Should search items with enhanced images")
-    void shouldSearchItemsWithEnhancedImages() {
+    @DisplayName("Should search items")
+    void shouldSearchItems() {
         // Given
         List<InventoryItem> searchResults = Arrays.asList(testItem);
         when(inventoryRepository.findByNameContainingIgnoreCaseAndIsActiveTrue("apple"))
             .thenReturn(searchResults);
-        when(pexelsService.getProductImage("Fresh Apples", "Fruits"))
-            .thenReturn("https://images.pexels.com/search-apple.jpg");
 
         // When
         List<InventoryItem> result = inventoryService.searchItems("apple");
@@ -271,29 +255,9 @@ class InventoryServiceTest {
         // Then
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getName()).isEqualTo("Fresh Apples");
-        assertThat(result.get(0).getImageUrl()).isEqualTo("https://images.pexels.com/search-apple.jpg");
+        assertThat(result.get(0).getImageUrl()).isEqualTo("https://example.com/original-image.jpg");
         
         verify(inventoryRepository).findByNameContainingIgnoreCaseAndIsActiveTrue("apple");
-        verify(pexelsService).getProductImage("Fresh Apples", "Fruits");
-    }
-
-    @Test
-    @DisplayName("Should handle Pexels service failure gracefully")
-    void shouldHandlePexelsServiceFailureGracefully() {
-        // Given
-        when(inventoryRepository.findByIsActiveTrue()).thenReturn(Arrays.asList(testItem));
-        when(pexelsService.getProductImage(anyString(), anyString()))
-            .thenThrow(new RuntimeException("Pexels API error"));
-
-        // When
-        List<InventoryItem> result = inventoryService.getAllActiveItems();
-
-        // Then
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).getImageUrl()).isEqualTo("https://example.com/original-image.jpg"); // Original URL preserved
-        
-        verify(inventoryRepository).findByIsActiveTrue();
-        verify(pexelsService).getProductImage("Fresh Apples", "Fruits");
     }
 
     // Helper method to create test items

@@ -132,11 +132,10 @@ security.password.strength=12
 # spring.mail.properties.mail.smtp.starttls.enable=true
 
 # ===========================
-# 🎨 Pexels API Configuration
+# 🎨 Image Configuration
 # ===========================
-# Note: Pexels API key is configured in PexelsService.java
-# You can override it here if needed
-# pexels.api.key=your_pexels_api_key
+# Static image serving configuration
+# Images are served from the database and static resources
 
 # ===========================
 # 🚀 Performance Configuration
