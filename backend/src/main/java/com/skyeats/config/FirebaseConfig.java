@@ -11,14 +11,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 @Configuration
 public class FirebaseConfig {
 
-    @Value("${firebase.credentials-path}")
+    @Value("${firebase.credentials-path:}")
     private String credentialsPath;
+
+    @Value("${firebase.credentials-json:}")
+    private String credentialsJson;
 
     @Value("${firebase.project-id}")
     private String projectId;
@@ -27,10 +32,26 @@ public class FirebaseConfig {
     public void initialize() {
         try {
             if (FirebaseApp.getApps().isEmpty()) {
-                FileInputStream serviceAccount = new FileInputStream(credentialsPath);
+                GoogleCredentials credentials;
+                
+                // Check if we have base64 encoded JSON (for Render deployment)
+                if (!credentialsJson.isEmpty()) {
+                    byte[] decodedBytes = Base64.getDecoder().decode(credentialsJson);
+                    ByteArrayInputStream credentialsStream = new ByteArrayInputStream(decodedBytes);
+                    credentials = GoogleCredentials.fromStream(credentialsStream);
+                } 
+                // Otherwise use file path (for local development)
+                else if (!credentialsPath.isEmpty()) {
+                    FileInputStream serviceAccount = new FileInputStream(credentialsPath);
+                    credentials = GoogleCredentials.fromStream(serviceAccount);
+                } 
+                // Try to use default credentials (for Google Cloud deployment)
+                else {
+                    credentials = GoogleCredentials.getApplicationDefault();
+                }
                 
                 FirebaseOptions options = FirebaseOptions.builder()
-                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setCredentials(credentials)
                         .setProjectId(projectId)
                         .build();
 
