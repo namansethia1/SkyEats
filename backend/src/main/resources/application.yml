@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb+srv://namansethia5:iXa6cfFBLMP1Hh7g@cluster0.5jtifc9.mongodb.net/?appName=Cluster0}
+      database: skyeats
+
+firebase:
+  project-id: ${FIREBASE_PROJECT_ID:akasa-9c735}
+  credentials-path: ${GOOGLE_APPLICATION_CREDENTIALS:C:\\Users\\Computer\\Downloads\\akasa-9c735-firebase-adminsdk-fbsvc-82e94f1aae.json}
+
+logging:
+  level:
+    com.skyeats: DEBUG
+    org.springframework.security: DEBUG

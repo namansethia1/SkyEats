@@ -1,0 +1,364 @@
+# 🚫 SkyEats .gitignore
+
+# ===========================
+# 🔐 Environment & Secrets
+# ===========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Firebase configuration
+firebase-service-account.json
+firebase-config.json
+.firebase/
+.firebaserc
+
+# API Keys and secrets
+secrets/
+config/secrets/
+
+# ===========================
+# 📁 Dependencies
+# ===========================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Java/Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.properties
+
+# ===========================
+# 🏗️ Build outputs
+# ===========================
+
+# Frontend build
+dist/
+dist-ssr/
+build/
+*.local
+
+# Backend build
+out/
+bin/
+classes/
+
+# ===========================
+# 🛠️ IDE & Editor files
+# ===========================
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ===========================
+# 🖥️ Operating System
+# ===========================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===========================
+# 📊 Logs & Runtime
+# ===========================
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+.nyc_output
+
+# ===========================
+# 🗄️ Database & Cache
+# ===========================
+
+# MongoDB
+*.mongodb
+
+# Cache directories
+.cache/
+.parcel-cache/
+.npm
+.eslintcache
+.stylelintcache
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# ===========================
+# 🧪 Testing
+# ===========================
+
+# Jest
+coverage/
+.nyc_output/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# ===========================
+# 📦 Package managers
+# ===========================
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# pnpm
+.pnpm-debug.log*
+
+# ===========================
+# 🚀 Deployment
+# ===========================
+
+# Vercel
+.vercel
+
+# Netlify
+.netlify/
+
+# Heroku
+.heroku/
+
+# Docker
+.dockerignore
+Dockerfile.prod
+
+# ===========================
+# 🔧 Temporary files
+# ===========================
+
+# Temporary folders
+tmp/
+temp/
+
+# Editor backup files
+*.bak
+*.backup
+*.orig
+
+# ===========================
+# 📱 Mobile
+# ===========================
+
+# React Native
+.expo/
+.expo-shared/
+
+# ===========================
+# 🎨 Assets (if large)
+# ===========================
+
+# Uncomment if you have large assets that shouldn't be in git
+# assets/images/large/
+# public/videos/
+
+# ===========================
+# 📋 Documentation builds
+# ===========================
+
+# Docusaurus
+.docusaurus/
+build/
+
+# VuePress
+.vuepress/dist/
+
+# ===========================
+# 🔍 Analysis & Profiling
+# ===========================
+
+# Bundle analyzer
+bundle-analyzer-report.html
+
+# Profiling
+*.cpuprofile
+
+# ===========================
+# 🌐 Internationalization
+# ===========================
+
+# i18n
+*.mo
+*.pot
+
+# ===========================
+# 📊 Monitoring & Analytics
+# ===========================
+
+# Sentry
+.sentryclirc
+
+# ===========================
+# 🔐 Security scanning
+# ===========================
+
+# Snyk
+.snyk
+
+# ===========================
+# 📝 Custom project files
+# ===========================
+
+# Project specific temporary files
+NOTES.md
+TODO.md
+SCRATCH.md
+
+# Local development scripts
+dev-scripts/
+local-scripts/
+
+# Backup files
+*.backup
+backup/
+
+# ===========================
+# 🎯 Keep these files
+# ===========================
+
+# Keep example files
+!.env.example
+!config.example.js
+!docker-compose.example.yml
+
+# Keep important documentation
+!README.md
+!CONTRIBUTING.md
+!LICENSE
+!CHANGELOG.md
+
+# Keep CI/CD configurations
+!.github/
+!.gitlab-ci.yml
+!.travis.yml
+!.circleci/
+
+# Keep Docker files (but not secrets)
+!Dockerfile
+!docker-compose.yml
+!.dockerignore

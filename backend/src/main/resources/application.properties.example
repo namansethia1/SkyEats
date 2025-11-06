@@ -1,0 +1,171 @@
+# ===========================
+# 🌐 SkyEats Backend Configuration
+# ===========================
+
+# ===========================
+# 🗄️ MongoDB Configuration
+# ===========================
+# Local MongoDB
+spring.data.mongodb.uri=mongodb://localhost:27017/skyeats
+spring.data.mongodb.database=skyeats
+
+# MongoDB Atlas (Production)
+# spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/skyeats?retryWrites=true&w=majority
+
+# Connection pool settings
+spring.data.mongodb.options.max-connection-pool-size=20
+spring.data.mongodb.options.min-connection-pool-size=5
+spring.data.mongodb.options.max-connection-idle-time=30000
+
+# ===========================
+# 🔥 Firebase Configuration
+# ===========================
+# Path to Firebase service account JSON file
+firebase.config.path=classpath:firebase-service-account.json
+
+# Alternative: Firebase configuration as environment variables
+# firebase.project.id=your_project_id
+# firebase.client.email=your_service_account_email
+# firebase.private.key=your_private_key
+
+# ===========================
+# 🌐 Server Configuration
+# ===========================
+server.port=8080
+server.servlet.context-path=/api
+
+# Enable compression
+server.compression.enabled=true
+server.compression.mime-types=text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+server.compression.min-response-size=1024
+
+# ===========================
+# 🔒 CORS Configuration
+# ===========================
+# Allowed origins (comma-separated)
+cors.allowed.origins=http://localhost:5173,http://localhost:3000
+
+# Allowed methods
+cors.allowed.methods=GET,POST,PUT,DELETE,OPTIONS
+
+# Allowed headers
+cors.allowed.headers=*
+
+# Allow credentials
+cors.allow.credentials=true
+
+# ===========================
+# 📊 Logging Configuration
+# ===========================
+# Root logging level
+logging.level.root=WARN
+
+# Application logging
+logging.level.com.skyeats=INFO
+
+# Spring Security logging (for debugging)
+logging.level.org.springframework.security=WARN
+
+# MongoDB logging
+logging.level.org.springframework.data.mongodb=INFO
+
+# Log file configuration
+logging.file.name=logs/skyeats.log
+logging.file.max-size=10MB
+logging.file.max-history=30
+
+# ===========================
+# 🔧 Spring Boot Configuration
+# ===========================
+# Application name
+spring.application.name=SkyEats Backend
+
+# Profile configuration
+spring.profiles.active=development
+
+# JPA/Hibernate (if using SQL database in future)
+# spring.jpa.hibernate.ddl-auto=update
+# spring.jpa.show-sql=false
+
+# ===========================
+# 📊 Actuator Configuration
+# ===========================
+# Enable health endpoint
+management.endpoints.web.exposure.include=health,info,metrics
+
+# Health endpoint details
+management.endpoint.health.show-details=when-authorized
+
+# Info endpoint
+management.info.env.enabled=true
+
+# ===========================
+# 🎯 Application Properties
+# ===========================
+# Application version
+app.version=1.0.0
+
+# Application description
+app.description=SkyEats Backend API
+
+# Maximum file upload size
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# ===========================
+# 🔐 Security Configuration
+# ===========================
+# JWT token expiration (in seconds)
+jwt.expiration=86400
+
+# Password encoding strength
+security.password.strength=12
+
+# ===========================
+# 📧 Email Configuration (Optional)
+# ===========================
+# spring.mail.host=smtp.gmail.com
+# spring.mail.port=587
+# spring.mail.username=your_email@gmail.com
+# spring.mail.password=your_app_password
+# spring.mail.properties.mail.smtp.auth=true
+# spring.mail.properties.mail.smtp.starttls.enable=true
+
+# ===========================
+# 🎨 Pexels API Configuration
+# ===========================
+# Note: Pexels API key is configured in PexelsService.java
+# You can override it here if needed
+# pexels.api.key=your_pexels_api_key
+
+# ===========================
+# 🚀 Performance Configuration
+# ===========================
+# Connection timeout
+spring.data.mongodb.options.connect-timeout=10000
+
+# Socket timeout
+spring.data.mongodb.options.socket-timeout=5000
+
+# Server selection timeout
+spring.data.mongodb.options.server-selection-timeout=5000
+
+# ===========================
+# 🧪 Development Configuration
+# ===========================
+# Enable debug mode (development only)
+debug=false
+
+# Enable trace logging (development only)
+trace=false
+
+# ===========================
+# 📝 Instructions
+# ===========================
+# 1. Copy this file to application.properties in the same directory
+# 2. Replace all placeholder values with your actual configuration
+# 3. Create separate files for different environments:
+#    - application-development.properties
+#    - application-production.properties
+# 4. Never commit sensitive information to version control
+# 5. Use environment variables for production secrets
