@@ -20,6 +20,16 @@ logging:
     org.springframework.security: WARN
     root: WARN
 
+# Actuator configuration for health checks
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
+
 # CORS configuration for production
 cors:
   allowed-origins: ${ALLOWED_ORIGINS:https://akasa-mzdehcwii-namanchrists-projects.vercel.app}

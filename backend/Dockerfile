@@ -1,17 +1,17 @@
-# Use OpenJDK 17 as base image
-FROM openjdk:17-jdk-slim
+# Multi-stage build for smaller final image
+FROM eclipse-temurin:17-jdk-jammy AS builder
 
 # Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml
+# Copy Maven wrapper and pom.xml first for better caching
 COPY .mvn/ .mvn/
 COPY mvnw mvnw.cmd pom.xml ./
 
-# Make mvnw executable (for Unix systems)
+# Make mvnw executable
 RUN chmod +x ./mvnw
 
-# Download dependencies
+# Download dependencies (this layer will be cached if pom.xml doesn't change)
 RUN ./mvnw dependency:go-offline -B
 
 # Copy source code
@@ -20,6 +20,20 @@ COPY src ./src
 # Build the application
 RUN ./mvnw clean package -DskipTests -Pprod
 
+# Runtime stage with smaller JRE image
+FROM eclipse-temurin:17-jre-jammy
+
+# Set working directory
+WORKDIR /app
+
+# Copy the built JAR from builder stage
+COPY --from=builder /app/target/skyeats-backend-0.0.1-SNAPSHOT.jar app.jar
+
+# Create non-root user for security
+RUN groupadd -r spring && useradd -r -g spring spring
+RUN chown spring:spring app.jar
+USER spring
+
 # Expose port
 EXPOSE 8080
 
@@ -27,4 +41,4 @@ EXPOSE 8080
 ENV SPRING_PROFILES_ACTIVE=prod
 
 # Run the application
-CMD ["java", "-jar", "target/skyeats-backend-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
