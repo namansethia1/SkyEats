@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,13 @@ import java.util.ArrayList;
 @Component
 public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
 
+    private final FirebaseAuth firebaseAuth;
+
+    @Autowired
+    public FirebaseAuthenticationFilter(FirebaseAuth firebaseAuth) {
+        this.firebaseAuth = firebaseAuth;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
                                   FilterChain filterChain) throws ServletException, IOException {
@@ -27,18 +35,21 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
             String token = authorizationHeader.substring(7);
             
             try {
-                // Try to get Firebase Auth instance
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                FirebaseToken decodedToken = firebaseAuth.verifyIdToken(token);
-                String uid = decodedToken.getUid();
-                
-                UsernamePasswordAuthenticationToken authentication = 
-                    new UsernamePasswordAuthenticationToken(uid, null, new ArrayList<>());
-                
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // Only verify token if Firebase Auth is available
+                if (firebaseAuth != null) {
+                    FirebaseToken decodedToken = firebaseAuth.verifyIdToken(token);
+                    String uid = decodedToken.getUid();
+                    
+                    UsernamePasswordAuthenticationToken authentication = 
+                        new UsernamePasswordAuthenticationToken(uid, null, new ArrayList<>());
+                    
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    logger.warn("Firebase Auth not available - skipping token verification");
+                }
                 
             } catch (Exception e) {
-                logger.warn("Firebase token verification failed (Firebase may not be configured): " + e.getMessage());
+                logger.warn("Firebase token verification failed: " + e.getMessage());
                 // Continue without authentication - let the application handle it
             }
         }

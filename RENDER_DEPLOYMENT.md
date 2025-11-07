@@ -39,22 +39,14 @@ SPRING_PROFILES_ACTIVE=prod
 # CORS Configuration
 ALLOWED_ORIGINS=https://akasa-mzdehcwii-namanchrists-projects.vercel.app
 
-# Firebase Service Account (Base64 encoded JSON)
-GOOGLE_APPLICATION_CREDENTIALS_JSON=base64_encoded_service_account_json
+# Note: No Firebase credentials needed for email/password auth
 ```
 
-### 4. **Firebase Service Account Setup**
-1. Go to Firebase Console → Project Settings → Service Accounts
-2. Generate new private key (downloads JSON file)
-3. Convert JSON to base64:
-   ```bash
-   # On Windows (PowerShell)
-   [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((Get-Content "path/to/service-account.json" -Raw)))
-   
-   # On Linux/Mac
-   base64 -i path/to/service-account.json
-   ```
-4. Add the base64 string as `GOOGLE_APPLICATION_CREDENTIALS_JSON` environment variable
+### 4. **Firebase Configuration**
+1. Go to Firebase Console → Project Settings → General
+2. Copy your Project ID
+3. Add it as `FIREBASE_PROJECT_ID` environment variable
+4. No service account credentials needed - frontend handles authentication directly
 
 ### 5. **MongoDB Atlas Setup**
 1. Create MongoDB Atlas cluster
@@ -89,7 +81,7 @@ curl https://your-app.onrender.com/api/inventory
 ### Common Issues
 1. **Build Fails**: Check Java version (should be 17)
 2. **MongoDB Connection**: Verify connection string and IP whitelist
-3. **Firebase Auth**: Ensure service account JSON is properly base64 encoded
+3. **Firebase Auth**: Ensure Firebase Project ID is correctly set
 4. **CORS Issues**: Add frontend URL to `ALLOWED_ORIGINS`
 
 ### Logs

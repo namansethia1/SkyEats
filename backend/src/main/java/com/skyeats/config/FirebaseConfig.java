@@ -1,6 +1,5 @@
 package com.skyeats.config;
 
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -9,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 
 @Configuration
 public class FirebaseConfig {
@@ -23,8 +21,8 @@ public class FirebaseConfig {
             if (FirebaseApp.getApps().isEmpty()) {
                 System.out.println("Initializing Firebase for project: " + projectId);
                 
-                // For email/password authentication, we can initialize with minimal config
-                // The Firebase client SDK handles authentication, backend just verifies tokens
+                // Initialize Firebase with just project ID
+                // No credentials needed - frontend handles authentication directly
                 FirebaseOptions options = FirebaseOptions.builder()
                         .setProjectId(projectId)
                         .build();
@@ -34,13 +32,18 @@ public class FirebaseConfig {
             }
         } catch (Exception e) {
             System.err.println("Failed to initialize Firebase: " + e.getMessage());
-            System.err.println("Note: This is expected if no Firebase credentials are configured");
-            System.err.println("For email/password auth, the frontend handles authentication directly");
-            // Don't throw exception - let the app start without Firebase Admin SDK
-            System.out.println("Continuing without Firebase Admin SDK - token verification will be disabled");
+            System.err.println("Note: Backend token verification will be disabled");
+            System.err.println("Frontend handles email/password authentication directly");
         }
     }
 
-    // Remove FirebaseAuth bean - let the filter handle it directly
-    // This prevents Spring from trying to inject a null bean
+    @Bean
+    public FirebaseAuth firebaseAuth() {
+        try {
+            return FirebaseAuth.getInstance();
+        } catch (Exception e) {
+            System.err.println("Firebase Auth not available: " + e.getMessage());
+            return null;
+        }
+    }
 }
