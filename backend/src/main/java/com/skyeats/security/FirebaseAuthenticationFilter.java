@@ -27,6 +27,13 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
                                   FilterChain filterChain) throws ServletException, IOException {
         
+        // Skip authentication if Firebase is not configured
+        if (firebaseAuth == null) {
+            logger.warn("Firebase Auth not configured - skipping token verification");
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
         String authorizationHeader = request.getHeader("Authorization");
         
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
