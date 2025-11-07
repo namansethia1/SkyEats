@@ -60,13 +60,24 @@ public class FirebaseConfig {
         if (firebaseCredentialsBase64 != null && !firebaseCredentialsBase64.trim().isEmpty()) {
             System.out.println("Loading Firebase credentials from Base64 environment variable");
             try {
-                byte[] decodedCredentials = Base64.getDecoder().decode(firebaseCredentialsBase64);
+                // Remove any whitespace, newlines, or carriage returns from the Base64 string
+                String cleanedBase64 = firebaseCredentialsBase64.replaceAll("\\s+", "");
+                System.out.println("Base64 string length after cleaning: " + cleanedBase64.length());
+                
+                byte[] decodedCredentials = Base64.getDecoder().decode(cleanedBase64);
+                System.out.println("Successfully decoded " + decodedCredentials.length + " bytes");
+                
                 try (InputStream serviceAccount = new ByteArrayInputStream(decodedCredentials)) {
                     return GoogleCredentials.fromStream(serviceAccount);
                 }
+            } catch (IllegalArgumentException e) {
+                System.err.println("Base64 decoding failed: " + e.getMessage());
+                System.err.println("Base64 string starts with: " + firebaseCredentialsBase64.substring(0, Math.min(50, firebaseCredentialsBase64.length())));
+                throw new IOException("Invalid Base64 format in Firebase credentials", e);
             } catch (Exception e) {
-                System.err.println("Failed to decode Base64 credentials: " + e.getMessage());
-                throw new IOException("Invalid Base64 Firebase credentials", e);
+                System.err.println("Failed to parse Firebase credentials: " + e.getMessage());
+                e.printStackTrace();
+                throw new IOException("Invalid Firebase credentials JSON", e);
             }
         }
         
