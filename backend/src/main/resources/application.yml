@@ -9,7 +9,8 @@ spring:
 
 firebase:
   project-id: ${FIREBASE_PROJECT_ID:akasa-9c735}
-  credentials-path: ${GOOGLE_APPLICATION_CREDENTIALS:C:\\Users\\Computer\\Downloads\\akasa-9c735-firebase-adminsdk-fbsvc-82e94f1aae.json}
+  credentials-path: ${GOOGLE_APPLICATION_CREDENTIALS:}
+  credentials-json: ${GOOGLE_APPLICATION_CREDENTIALS_JSON:}
 
 logging:
   level:
