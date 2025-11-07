@@ -1,8 +1,10 @@
 import React from 'react';
 import { Clock, ShoppingCart, Zap, ChevronRight } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useCart } from '../contexts/CartContext';
 
 const FeaturedProducts = ({ onAddToCart, currentUser, inventoryItems, onCategorySelect }) => {
+  const { getItemQuantity } = useCart();
   // Create featured products from actual inventory items with discounts
   const createFeaturedProducts = () => {
     if (!inventoryItems || inventoryItems.length === 0) return [];
@@ -60,15 +62,15 @@ const FeaturedProducts = ({ onAddToCart, currentUser, inventoryItems, onCategory
       {/* Section Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center">
-          <Zap className="h-8 w-8 text-yellow-500 mr-3" />
+          <Zap className="h-8 w-8 text-yellow-500 dark:text-yellow-400 mr-3" />
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100">
               Today's Special Deals
             </h2>
-            <p className="text-gray-600">Limited time offers - Grab them before they're gone!</p>
+            <p className="text-gray-600 dark:text-gray-400">Limited time offers - Grab them before they're gone!</p>
           </div>
         </div>
-        <button className="text-sky-600 hover:text-sky-700 font-medium flex items-center">
+        <button className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium flex items-center">
           View All
           <ChevronRight className="h-4 w-4 ml-1" />
         </button>
@@ -79,7 +81,7 @@ const FeaturedProducts = ({ onAddToCart, currentUser, inventoryItems, onCategory
         {featuredProducts.map((product, index) => (
           <div
             key={product.id}
-            className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100"
+            className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100 dark:border-gray-700"
             style={{
               animationDelay: `${index * 150}ms`,
               animation: 'slideInUp 0.6s ease-out forwards'
@@ -126,45 +128,50 @@ const FeaturedProducts = ({ onAddToCart, currentUser, inventoryItems, onCategory
               <div className="flex items-center justify-between mb-2">
                 <button
                   onClick={() => handleCategoryClick(product.category)}
-                  className="text-xs font-medium text-sky-600 bg-sky-50 hover:bg-sky-100 px-2 py-1 rounded-full transition-colors duration-200 cursor-pointer"
+                  className="text-xs font-medium text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-900/30 hover:bg-sky-100 dark:hover:bg-sky-900/50 px-2 py-1 rounded-full transition-colors duration-200 cursor-pointer"
                   title={`View all ${product.category} products`}
                 >
                   {product.category}
                 </button>
+                {getItemQuantity(product.id) > 0 && (
+                  <span className="bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300 px-2 py-1 rounded-full text-xs font-bold animate-bounce">
+                    {getItemQuantity(product.id)} in cart
+                  </span>
+                )}
               </div>
 
               {/* Product Name */}
-              <h3 className="text-lg font-bold text-gray-900 group-hover:text-sky-600 transition-colors duration-200 mb-2">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-200 mb-2">
                 {product.name}
               </h3>
 
               {/* Price Section */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center space-x-2">
-                  <span className="text-xl font-bold text-sky-600">
+                  <span className="text-xl font-bold text-sky-600 dark:text-sky-400">
                     ₹{product.discountedPrice}
                   </span>
-                  <span className="text-sm text-gray-500 line-through">
+                  <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
                     ₹{Math.round(product.originalPrice)}
                   </span>
                 </div>
-                <span className="text-xs text-gray-500">per {product.unit}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">per {product.unit}</span>
               </div>
 
               {/* Stock Info */}
               <div className="flex items-center justify-between mb-3">
                 <span className={`text-sm font-medium ${
-                  product.stockQuantity <= 10 ? 'text-orange-600' : 'text-green-600'
+                  product.stockQuantity <= 10 ? 'text-orange-600 dark:text-orange-400' : 'text-green-600 dark:text-green-400'
                 }`}>
                   {product.stockQuantity <= 10 ? 'Limited Stock!' : 'In Stock'}
                 </span>
-                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">
+                <span className="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 px-2 py-1 rounded-full font-medium">
                   {product.badge}
                 </span>
               </div>
 
               {/* Stock Progress Bar */}
-              <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
                 <div 
                   className={`h-2 rounded-full transition-all duration-500 ${
                     product.stockQuantity <= 10 ? 'bg-orange-500' : 'bg-green-500'

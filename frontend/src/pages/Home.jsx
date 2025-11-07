@@ -208,15 +208,15 @@ const Home = () => {
         </div>
 
         <div className="animate-fadeInUp">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
             Welcome to{' '}
-            <span className="bg-gradient-to-r from-sky-600 via-blue-600 to-purple-600 bg-clip-text text-transparent animate-pulse">
+            <span className="bg-gradient-to-r from-sky-600 via-blue-600 to-purple-600 dark:from-sky-400 dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent animate-pulse">
               SkyEats
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
             🚀 Fresh groceries delivered to your doorstep with{' '}
-            <span className="font-semibold text-sky-600">lightning speed</span>
+            <span className="font-semibold text-sky-600 dark:text-sky-400">lightning speed</span>
           </p>
           
           {/* Feature Pills */}
@@ -224,7 +224,7 @@ const Home = () => {
             {['🍎 Fresh Products', '⚡ Fast Delivery', '💰 Best Prices', '🛡️ Secure Payment'].map((feature, index) => (
               <span 
                 key={feature}
-                className="bg-gradient-to-r from-sky-100 to-blue-100 text-sky-700 px-4 py-2 rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                className="bg-gradient-to-r from-sky-100 to-blue-100 dark:from-sky-900/30 dark:to-blue-900/30 text-sky-700 dark:text-sky-300 px-4 py-2 rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 style={{
                   animationDelay: `${index * 200 + 500}ms`,
                   animation: 'slideInUp 0.6s ease-out forwards'
@@ -258,16 +258,16 @@ const Home = () => {
           <div className="mb-8">
             <button
               onClick={() => setShowProducts(false)}
-              className="flex items-center text-sky-600 hover:text-sky-700 font-medium mb-4"
+              className="flex items-center text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium mb-4"
             >
               <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
               Back to Categories
             </button>
             
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
               {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Products
             </h2>
-            <p className="text-gray-600">Discover fresh {selectedCategory.toLowerCase()} products</p>
+            <p className="text-gray-600 dark:text-gray-400">Discover fresh {selectedCategory.toLowerCase()} products</p>
           </div>
 
           {/* Search and Filter Section */}
@@ -294,11 +294,11 @@ const Home = () => {
             </div>
 
             {/* Category Info */}
-            <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
-              <h3 className="font-semibold text-sky-800 mb-2">
+            <div className="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800 rounded-lg p-4">
+              <h3 className="font-semibold text-sky-800 dark:text-sky-300 mb-2">
                 Browsing: {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
               </h3>
-              <p className="text-sky-600 text-sm">
+              <p className="text-sky-600 dark:text-sky-400 text-sm">
                 Showing all products in this category. Use search to find specific items.
               </p>
             </div>
@@ -314,7 +314,7 @@ const Home = () => {
           return (
             <div 
               key={item.id} 
-              className="group relative bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100"
+              className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100 dark:border-gray-700"
               style={{
                 animationDelay: `${index * 100}ms`,
                 animation: 'fadeInUp 0.6s ease-out forwards'
@@ -373,37 +373,37 @@ const Home = () => {
               <div className="p-4 space-y-3">
                 {/* Category Badge */}
                 <div className="flex items-center justify-between">
-                  <span className="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
+                  <span className="inline-block bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full text-xs font-medium">
                     {item.category}
                   </span>
                   {quantity > 0 && (
-                    <span className="bg-sky-100 text-sky-700 px-2 py-1 rounded-full text-xs font-bold animate-bounce">
+                    <span className="bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300 px-2 py-1 rounded-full text-xs font-bold animate-bounce">
                       {quantity} in cart
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-lg font-bold text-gray-900 group-hover:text-sky-600 transition-colors duration-200">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-200">
                   {item.name}
                 </h3>
-                <p className="text-gray-600 text-sm line-clamp-2">{item.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">{item.description}</p>
                 
                 {/* Price and Stock */}
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col">
-                    <span className="text-sky-600 font-bold text-xl">
+                    <span className="text-sky-600 dark:text-sky-400 font-bold text-xl">
                       ₹{item.price}
                     </span>
-                    <span className="text-gray-500 text-xs">per {item.unit}</span>
+                    <span className="text-gray-500 dark:text-gray-400 text-xs">per {item.unit}</span>
                   </div>
                   <div className="text-right">
                     <div className={`text-sm font-medium ${
-                      isLowStock ? 'text-orange-600' : 'text-green-600'
+                      isLowStock ? 'text-orange-600 dark:text-orange-400' : 'text-green-600 dark:text-green-400'
                     }`}>
                       {isLowStock ? 'Limited Stock' : 'In Stock'}
                     </div>
                     {isLowStock && (
-                      <div className="text-xs text-orange-500 animate-pulse">
+                      <div className="text-xs text-orange-500 dark:text-orange-400 animate-pulse">
                         Hurry up!
                       </div>
                     )}
@@ -411,7 +411,7 @@ const Home = () => {
                 </div>
 
                 {/* Stock Progress Bar */}
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
                   <div 
                     className={`h-2 rounded-full transition-all duration-500 ${
                       isLowStock ? 'bg-orange-500' : 'bg-green-500'
@@ -425,20 +425,20 @@ const Home = () => {
                 {!isOutOfStock && (
                   <div className="pt-2">
                     {quantity > 0 ? (
-                      <div className="flex items-center justify-between bg-gray-50 rounded-lg p-2">
+                      <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-700/50 rounded-lg p-2">
                         <button
                           onClick={() => handleUpdateQuantity(item, quantity - 1)}
-                          className="p-2 rounded-full bg-white shadow-md hover:shadow-lg hover:bg-red-50 transition-all duration-200 transform hover:scale-110"
+                          className="p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg hover:bg-red-50 dark:hover:bg-red-900/30 transition-all duration-200 transform hover:scale-110"
                         >
-                          <Minus className="h-4 w-4 text-red-600" />
+                          <Minus className="h-4 w-4 text-red-600 dark:text-red-400" />
                         </button>
                         <div className="flex flex-col items-center">
-                          <span className="font-bold text-lg text-gray-900">{quantity}</span>
-                          <span className="text-xs text-gray-500">in cart</span>
+                          <span className="font-bold text-lg text-gray-900 dark:text-gray-100">{quantity}</span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">in cart</span>
                         </div>
                         <button
                           onClick={() => handleUpdateQuantity(item, quantity + 1)}
-                          className="p-2 rounded-full bg-sky-600 text-white shadow-md hover:shadow-lg hover:bg-sky-700 transition-all duration-200 transform hover:scale-110"
+                          className="p-2 rounded-full bg-sky-600 dark:bg-sky-500 text-white shadow-md hover:shadow-lg hover:bg-sky-700 dark:hover:bg-sky-600 transition-all duration-200 transform hover:scale-110"
                         >
                           <Plus className="h-4 w-4" />
                         </button>

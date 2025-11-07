@@ -108,13 +108,13 @@ const CategoryShowcase = ({ onCategorySelect, categories = [] }) => {
       {/* Section Header */}
       <div className="text-center mb-12">
         <div className="flex items-center justify-center mb-4">
-          <Sparkles className="h-8 w-8 text-sky-600 mr-3" />
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+          <Sparkles className="h-8 w-8 text-sky-600 dark:text-sky-400 mr-3" />
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
             Shop by Category
           </h2>
-          <Sparkles className="h-8 w-8 text-sky-600 ml-3" />
+          <Sparkles className="h-8 w-8 text-sky-600 dark:text-sky-400 ml-3" />
         </div>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           Discover fresh products organized by categories for easy shopping
         </p>
       </div>
@@ -134,7 +134,7 @@ const CategoryShowcase = ({ onCategorySelect, categories = [] }) => {
             }}
           >
             {/* Main Category Card */}
-            <div className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100">
+            <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100 dark:border-gray-700">
               {/* Background Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
               
@@ -149,7 +149,7 @@ const CategoryShowcase = ({ onCategorySelect, categories = [] }) => {
                 <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
                 
                 {/* Category Icon */}
-                <div className="absolute top-3 right-3 text-3xl bg-white bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <div className="absolute top-3 right-3 text-3xl bg-white dark:bg-gray-700 bg-opacity-90 dark:bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                   {category.icon}
                 </div>
               </div>
