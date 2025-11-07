@@ -10,7 +10,7 @@ spring:
 firebase:
   project-id: ${FIREBASE_PROJECT_ID:akasa-9c735}
   service-account-key: ${FIREBASE_SERVICE_ACCOUNT_KEY:}
-  service-account-path: ${FIREBASE_SERVICE_ACCOUNT_PATH:}
+  service-account-path: ${FIREBASE_SERVICE_ACCOUNT_PATH:firebase-service-account.json}
 
 logging:
   level:

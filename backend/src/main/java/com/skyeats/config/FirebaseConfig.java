@@ -12,6 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 @Configuration
 public class FirebaseConfig {
@@ -19,8 +20,8 @@ public class FirebaseConfig {
     @Value("${firebase.project-id}")
     private String projectId;
 
-    @Value("${firebase.service-account-key:}")
-    private String serviceAccountKey;
+    @Value("${FIREBASE_CREDENTIALS_BASE64:}")
+    private String firebaseCredentialsBase64;
 
     @Value("${firebase.service-account-path:}")
     private String serviceAccountPath;
@@ -55,11 +56,17 @@ public class FirebaseConfig {
     }
 
     private GoogleCredentials getCredentials() throws IOException {
-        // Priority 1: Service account key from environment variable (for Render)
-        if (serviceAccountKey != null && !serviceAccountKey.trim().isEmpty()) {
-            System.out.println("Loading Firebase credentials from environment variable");
-            try (InputStream serviceAccount = new ByteArrayInputStream(serviceAccountKey.getBytes())) {
-                return GoogleCredentials.fromStream(serviceAccount);
+        // Priority 1: Base64 encoded service account key from environment variable (for Render)
+        if (firebaseCredentialsBase64 != null && !firebaseCredentialsBase64.trim().isEmpty()) {
+            System.out.println("Loading Firebase credentials from Base64 environment variable");
+            try {
+                byte[] decodedCredentials = Base64.getDecoder().decode(firebaseCredentialsBase64);
+                try (InputStream serviceAccount = new ByteArrayInputStream(decodedCredentials)) {
+                    return GoogleCredentials.fromStream(serviceAccount);
+                }
+            } catch (Exception e) {
+                System.err.println("Failed to decode Base64 credentials: " + e.getMessage());
+                throw new IOException("Invalid Base64 Firebase credentials", e);
             }
         }
         
@@ -85,6 +92,6 @@ public class FirebaseConfig {
         }
         
         // Fallback: This will fail, but provides clear error message
-        throw new IOException("Firebase credentials not found. Please set FIREBASE_SERVICE_ACCOUNT_KEY environment variable or configure firebase.service-account-path property.");
+        throw new IOException("Firebase credentials not found. Please set FIREBASE_CREDENTIALS_BASE64 environment variable or configure firebase.service-account-path property.");
     }
 }
