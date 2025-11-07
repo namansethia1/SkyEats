@@ -46,4 +46,14 @@ public class FirebaseConfig {
             return null;
         }
     }
+
+    @Bean
+    public com.google.cloud.firestore.Firestore firestore() {
+        try {
+            return com.google.firebase.cloud.FirestoreClient.getFirestore();
+        } catch (Exception e) {
+            System.err.println("Firestore not available: " + e.getMessage());
+            return null;
+        }
+    }
 }

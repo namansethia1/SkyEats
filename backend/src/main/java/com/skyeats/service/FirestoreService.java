@@ -17,11 +17,18 @@ import com.google.cloud.Timestamp;
 @Service
 public class FirestoreService {
 
-    @Autowired
+    @Autowired(required = false)
     private Firestore firestore;
+
+    private void checkFirestoreAvailable() {
+        if (firestore == null) {
+            throw new RuntimeException("Firestore is not available. Please configure Firebase credentials or migrate to MongoDB.");
+        }
+    }
 
     // Cart Operations
     public Map<String, Object> getUserCart(String userId) throws ExecutionException, InterruptedException {
+        checkFirestoreAvailable();
         DocumentReference cartRef = firestore.collection("carts").document(userId);
         DocumentSnapshot document = cartRef.get().get();
         
@@ -32,6 +39,7 @@ public class FirestoreService {
     }
 
     public void addToCart(String userId, String itemId, CartItemDto cartItem) throws ExecutionException, InterruptedException {
+        checkFirestoreAvailable();
         DocumentReference cartRef = firestore.collection("carts").document(userId);
         
         Map<String, Object> cartData = new HashMap<>();
@@ -64,6 +72,7 @@ public class FirestoreService {
     }
 
     public void updateCartItemQuantity(String userId, String itemId, Integer quantity) throws ExecutionException, InterruptedException {
+        checkFirestoreAvailable();
         DocumentReference cartRef = firestore.collection("carts").document(userId);
         DocumentSnapshot document = cartRef.get().get();
         
@@ -88,6 +97,7 @@ public class FirestoreService {
     }
 
     public void removeFromCart(String userId, String itemId) throws ExecutionException, InterruptedException {
+        checkFirestoreAvailable();
         DocumentReference cartRef = firestore.collection("carts").document(userId);
         DocumentSnapshot document = cartRef.get().get();
         
@@ -106,6 +116,7 @@ public class FirestoreService {
     }
 
     public void clearCart(String userId) throws ExecutionException, InterruptedException {
+        checkFirestoreAvailable();
         DocumentReference cartRef = firestore.collection("carts").document(userId);
         Map<String, Object> cartData = new HashMap<>();
         cartData.put("userId", userId);
@@ -121,6 +132,7 @@ public class FirestoreService {
 
     // Order Operations
     public String createOrder(OrderDto order) throws ExecutionException, InterruptedException {
+        checkFirestoreAvailable();
         CollectionReference ordersRef = firestore.collection("orders");
         DocumentReference newOrderRef = ordersRef.document();
         
@@ -143,6 +155,7 @@ public class FirestoreService {
         System.out.println("Fetching orders for user: " + userId);
         
         try {
+            checkFirestoreAvailable();
             CollectionReference ordersRef = firestore.collection("orders");
             // Use simple query without orderBy to avoid composite index requirement
             Query query = ordersRef.whereEqualTo("userId", userId);
@@ -181,6 +194,7 @@ public class FirestoreService {
     }
 
     public Optional<OrderDto> getOrderById(String orderId) throws ExecutionException, InterruptedException {
+        checkFirestoreAvailable();
         DocumentReference orderRef = firestore.collection("orders").document(orderId);
         DocumentSnapshot document = orderRef.get().get();
         
@@ -191,6 +205,7 @@ public class FirestoreService {
     }
 
     public void updateOrderStatus(String orderId, String status) throws ExecutionException, InterruptedException {
+        checkFirestoreAvailable();
         DocumentReference orderRef = firestore.collection("orders").document(orderId);
         Map<String, Object> updates = new HashMap<>();
         updates.put("status", status);

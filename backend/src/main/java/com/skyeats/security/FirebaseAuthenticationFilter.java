@@ -20,7 +20,7 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
 
     private final FirebaseAuth firebaseAuth;
 
-    @Autowired
+    @Autowired(required = false)
     public FirebaseAuthenticationFilter(FirebaseAuth firebaseAuth) {
         this.firebaseAuth = firebaseAuth;
     }
