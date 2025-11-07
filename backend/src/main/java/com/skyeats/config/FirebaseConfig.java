@@ -41,13 +41,6 @@ public class FirebaseConfig {
         }
     }
 
-    @Bean
-    public FirebaseAuth firebaseAuth() {
-        try {
-            return FirebaseAuth.getInstance();
-        } catch (Exception e) {
-            System.err.println("Firebase Auth not available: " + e.getMessage());
-            return null; // Return null if Firebase is not properly configured
-        }
-    }
+    // Remove FirebaseAuth bean - let the filter handle it directly
+    // This prevents Spring from trying to inject a null bean
 }

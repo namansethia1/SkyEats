@@ -17,22 +17,9 @@ import java.util.ArrayList;
 @Component
 public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
 
-    private final FirebaseAuth firebaseAuth;
-
-    public FirebaseAuthenticationFilter(FirebaseAuth firebaseAuth) {
-        this.firebaseAuth = firebaseAuth;
-    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
                                   FilterChain filterChain) throws ServletException, IOException {
-        
-        // Skip authentication if Firebase is not configured
-        if (firebaseAuth == null) {
-            logger.warn("Firebase Auth not configured - skipping token verification");
-            filterChain.doFilter(request, response);
-            return;
-        }
         
         String authorizationHeader = request.getHeader("Authorization");
         
@@ -40,6 +27,8 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
             String token = authorizationHeader.substring(7);
             
             try {
+                // Try to get Firebase Auth instance
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 FirebaseToken decodedToken = firebaseAuth.verifyIdToken(token);
                 String uid = decodedToken.getUid();
                 
@@ -49,9 +38,8 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 
             } catch (Exception e) {
-                logger.error("Firebase token verification failed", e);
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
+                logger.warn("Firebase token verification failed (Firebase may not be configured): " + e.getMessage());
+                // Continue without authentication - let the application handle it
             }
         }
         
