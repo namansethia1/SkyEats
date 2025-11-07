@@ -35,18 +35,21 @@ public class FirebaseConfig {
                 GoogleCredentials credentials;
                 
                 // Check if we have base64 encoded JSON (for Render deployment)
-                if (!credentialsJson.isEmpty()) {
+                if (credentialsJson != null && !credentialsJson.trim().isEmpty()) {
+                    System.out.println("Using base64 encoded Firebase credentials");
                     byte[] decodedBytes = Base64.getDecoder().decode(credentialsJson);
                     ByteArrayInputStream credentialsStream = new ByteArrayInputStream(decodedBytes);
                     credentials = GoogleCredentials.fromStream(credentialsStream);
                 } 
                 // Otherwise use file path (for local development)
-                else if (!credentialsPath.isEmpty()) {
+                else if (credentialsPath != null && !credentialsPath.trim().isEmpty()) {
+                    System.out.println("Using Firebase credentials from file: " + credentialsPath);
                     FileInputStream serviceAccount = new FileInputStream(credentialsPath);
                     credentials = GoogleCredentials.fromStream(serviceAccount);
                 } 
                 // Try to use default credentials (for Google Cloud deployment)
                 else {
+                    System.out.println("Using default Firebase credentials");
                     credentials = GoogleCredentials.getApplicationDefault();
                 }
                 
@@ -56,8 +59,11 @@ public class FirebaseConfig {
                         .build();
 
                 FirebaseApp.initializeApp(options);
+                System.out.println("Firebase initialized successfully for project: " + projectId);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.err.println("Failed to initialize Firebase: " + e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException("Failed to initialize Firebase", e);
         }
     }
