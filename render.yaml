@@ -8,8 +8,6 @@ services:
         sync: false
       - key: FIREBASE_PROJECT_ID
         sync: false
-      - key: GOOGLE_APPLICATION_CREDENTIALS_JSON
-        sync: false
       - key: ALLOWED_ORIGINS
         sync: false
       - key: PORT

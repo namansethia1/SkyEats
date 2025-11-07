@@ -9,8 +9,6 @@ spring:
 
 firebase:
   project-id: ${FIREBASE_PROJECT_ID:akasa-9c735}
-  credentials-path: ${GOOGLE_APPLICATION_CREDENTIALS:}
-  credentials-json: ${GOOGLE_APPLICATION_CREDENTIALS_JSON:}
 
 logging:
   level:
